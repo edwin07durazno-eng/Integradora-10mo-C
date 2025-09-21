@@ -1,0 +1,21 @@
+# Dependencias de Node
+/node_modules
+
+# Archivos de compilación de TypeScript
+/dist
+
+# Variables de entorno
+.env
+
+# Archivos de logs de Docker
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Directorios de la base de datos de Docker (volúmenes)
+db_data
