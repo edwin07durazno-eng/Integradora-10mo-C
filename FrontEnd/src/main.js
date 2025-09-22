@@ -1,8 +1,9 @@
 import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
+import router from './router'
 
-createApp(App).mount('#app')
+createApp(App).use(router).mount('#app')
 
 // Ejemplo de petición al backend
 fetch('http://localhost:3000/api/auth', {

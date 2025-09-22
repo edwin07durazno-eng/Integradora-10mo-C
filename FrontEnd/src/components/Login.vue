@@ -3,7 +3,7 @@
     <div class="header-band top-band"></div>
     <div class="main-content">
       <h1>Bienvenido de vuelta</h1>
-      <form @submit.prevent="handleLogin">
+      <form class="login-form" @submit.prevent="handleLogin">
         <!-- Campo de Usuario -->
         <div class="input-group">
           <label for="username">Usuario</label>
@@ -70,6 +70,7 @@ export default {
         if (response.ok && data.accessToken) {
           localStorage.setItem('accessToken', data.accessToken);
           this.success = true;
+          this.$router.push('/empleados');
         } else {
           this.error = data.message || 'Credenciales incorrectas';
         }
