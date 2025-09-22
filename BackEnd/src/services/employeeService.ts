@@ -22,4 +22,10 @@ export class EmployeeService {
         const employee = await Employee.create(data);
         return employee;
     }
+    
+    async getAllEmployees() {
+        return await Employee.findAll({
+            attributes: ["id", "fullName", "phone", "curp", "salary"],
+        });
+    }
 }

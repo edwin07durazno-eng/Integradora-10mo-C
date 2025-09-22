@@ -18,7 +18,7 @@ app.use(cors({
 }));
 app.use(json());
 app.use('/api/auth', authRoutes);
-app.use('/api', employeeRoutes);
+app.use('/api/employees', employeeRoutes);
 
 const connectDB = async () => {
     try {
