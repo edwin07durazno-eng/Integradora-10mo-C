@@ -1,0 +1,108 @@
+openapi: 3.0.0
+info:
+  title: Auth API
+  version: 1.0.0
+  description: API para autenticación del dueño de negocio. Solo existe un usuario y un rol.
+
+servers:
+  - url: http://localhost:3000/api
+    description: Servidor local de desarrollo
+
+paths:
+  /auth/login:
+    post:
+      summary: Iniciar sesión como dueño de negocio
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                  example: "admin"
+                password:
+                  type: string
+                  format: password
+                  example: "123456"
+      responses:
+        "200":
+          description: Login exitoso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR..."
+                  refreshToken:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR..."
+        "401":
+          description: Credenciales incorrectas
+
+  /auth/refresh:
+    post:
+      summary: Refrescar token de acceso
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - refreshToken
+              properties:
+                refreshToken:
+                  type: string
+                  example: "eyJhbGciOiJIUzI1NiIsInR..."
+      responses:
+        "200":
+          description: Nuevo access token generado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR..."
+        "403":
+          description: Refresh token inválido o expirado
+
+  /users/me:
+    get:
+      summary: Obtener perfil del dueño autenticado
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Perfil del dueño
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  username:
+                    type: string
+                    example: "admin"
+                  role:
+                    type: string
+                    example: "owner"
+        "401":
+          description: Token inválido o no enviado
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
