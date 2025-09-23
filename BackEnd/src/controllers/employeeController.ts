@@ -64,4 +64,18 @@ export class EmployeeController {
             return res.status(500).json({ message: "Error interno del servidor." });
         }
     }
+
+    async delete(req: Request, res: Response) {
+        try {
+            const { id } = req.params;
+            const result = await employeeService.deleteEmployee(Number(id));
+            return res.status(200).json(result);
+        } catch (error: any) {
+            if (error.message === "Empleado no encontrado.") {
+                return res.status(404).json({ message: error.message });
+            }
+            console.error("Error al eliminar empleado:", error);
+            return res.status(500).json({ message: "Error interno del servidor." });
+        }
+    }
 }

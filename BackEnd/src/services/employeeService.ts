@@ -53,4 +53,13 @@ export class EmployeeService {
             throw error;
         }
     }
+
+    async deleteEmployee(id: number) {
+        const employee = await Employee.findByPk(id);
+        if (!employee) {
+            throw new Error("Empleado no encontrado.");
+        }
+        await employee.destroy();
+        return { message: "Empleado eliminado correctamente." };
+    }
 }

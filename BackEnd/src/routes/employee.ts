@@ -14,4 +14,7 @@ router.get("/", authenticateToken, (req, res) => employeeController.getAll(req, 
 // Modificar empleado
 router.put("/:id", authenticateToken, (req, res) => employeeController.update(req, res));
 
+// Eliminar empleado
+router.delete("/:id", authenticateToken, (req, res) => employeeController.delete(req, res));
+
 export default router;
