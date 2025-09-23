@@ -25,18 +25,18 @@
             </header>
 
             <div class="btn-add">
-                <button class="add-btn" @click="abrirModal">
-                    <i class="fas fa-plus-circle"></i> Agregar empleados
+                <button class="add-btn" @click="abrirModalAgregar"> <i class="fas fa-plus-circle"></i> Agregar empleados
                 </button>
             </div>
 
-            <AgregarEmpleado v-if="showModal" :visible="showModal" :empleado="empleadoActual"
-                @agregar-empleado="handleAgregarEmpleado" @cerrar="cerrarModal" />
+            <AgregarEmpleado v-if="showModalAgregar" :visible="showModalAgregar" :empleado="empleadoActual"
+                @agregar-empleado="handleAgregarEmpleado" @cerrar="cerrarModalAgregar" />
 
             <ActualizarEmpleado v-if="showModalActualizar" :visible="showModalActualizar" :empleado="empleadoActual"
                 @actualizar-empleado="handleActualizarEmpleado" @cerrar="cerrarModalActualizar" />
 
-            <EliminarEmpleado v-if="showModalEliminar" :visible="showModalEliminar" :empleado="empleadoActual" @confirmar-eliminacion="handleEliminarEmpleado" @cerrar="cerrarModalEliminar" />
+            <EliminarEmpleado v-if="showModalEliminar" :visible="showModalEliminar" :empleado="empleadoActual"
+                @confirmar-eliminacion="handleEliminarEmpleado" @cerrar="cerrarModalEliminar" />
 
             <div class="search-bar">
                 <input type="text" placeholder="Buscar..." class="search-input" />
@@ -60,7 +60,7 @@
                     <span class="row-item">{{ empleado.curp }}</span>
                     <span class="row-item">${{ empleado.salary }}</span>
                     <span class="row-item actions">
-                        <i class="fas fa-pen action-icon yellow" @click="abrirModalActualizar(empleado)"></i> 
+                        <i class="fas fa-pen action-icon yellow" @click="abrirModalActualizar(empleado)"></i>
                         <i class="fas fa-trash-alt action-icon red" @click="abrirModalEliminar(empleado)"></i>
                     </span>
                 </div>
