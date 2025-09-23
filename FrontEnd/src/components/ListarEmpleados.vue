@@ -44,18 +44,21 @@
                     <span class="header-item">Nombre completo</span>
                     <span class="header-item">Teléfono</span>
                     <span class="header-item">Curp</span>
+                    <span class="header-item">Salario</span>
                     <span class="header-item">Acciones</span>
                 </div>
-                <div class="table-row">
-                    <span class="row-item">Luis Norberto Hernández</span>
-                    <span class="row-item">772 267 7849</span>
-                    <span class="row-item">GAGL920315HDFRNS08</span>
+                
+                <div class="table-row" v-for="empleado in empleados" :key="empleado.id">
+                    <span class="row-item">{{ empleado.fullName }}</span>
+                    <span class="row-item">{{ empleado.phone }}</span>
+                    <span class="row-item">{{ empleado.curp }}</span>
+                    <span class="row-item">${{ empleado.salary }}</span>
                     <span class="row-item actions">
                         <i class="fas fa-pen action-icon yellow"></i>
                         <i class="fas fa-trash-alt action-icon red"></i>
                     </span>
                 </div>
-                
+
             </div>
         </main>
     </div>
@@ -72,15 +75,43 @@ export default {
     data() {
         return {
             showModal: false,
-            empleadoActual: {
-                nombreCompleto: '',
-                telefono: '',
-                curp: '',
-                salario: ''
-            }
+            empleadoActual: {},
+            empleados: [] // ✅ Agregamos un array para almacenar la lista de empleados
         };
     },
+    created() {
+        // ✅ Llamamos a la función para obtener los empleados al crear el componente
+        this.fetchEmpleados();
+    },
     methods: {
+        async fetchEmpleados() {
+            const token = localStorage.getItem('accessToken');
+            if (!token) {
+                alert('No estás autenticado. Por favor, inicia sesión.');
+                this.$router.push('/');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/api/employees', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    this.empleados = await response.json();
+                } else {
+                    alert('Error al obtener la lista de empleados.');
+                    // Opcional: Cerrar sesión si el token es inválido
+                    // this.logout();
+                }
+            } catch (error) {
+                console.error("Error de conexión:", error);
+                alert('Error de conexión con el servidor.');
+            }
+        },
         logout() {
             localStorage.removeItem('accessToken');
             this.$router.push('/');
@@ -91,10 +122,9 @@ export default {
         cerrarModal() {
             this.showModal = false;
         },
+        // ✅ Cuando se agrega un empleado desde el modal, se recarga la lista
         handleAgregarEmpleado(nuevoEmpleado) {
-            // Aquí puedes agregar la lógica para guardar el nuevo empleado
-            // Por ejemplo, hacer una petición al backend
-            console.log('Empleado agregado:', nuevoEmpleado);
+            this.empleados.push(nuevoEmpleado);
             this.cerrarModal();
         }
     }
