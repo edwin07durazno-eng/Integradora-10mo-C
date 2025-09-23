@@ -275,9 +275,16 @@ h1 {
   overflow: hidden;
 }
 
-.table-header, .table-row {
+.table-header {
   display: grid;
-  grid-template-columns: 2fr 1fr 2fr 1fr;
+  grid-template-columns: 0.7fr 0.5fr 1fr 0.5fr 0.5fr;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 0.7fr 0.5fr 1fr 0.5fr 0.5fr;
   padding: 15px;
   border-bottom: 1px solid #ddd;
 }
@@ -286,6 +293,7 @@ h1 {
   background-color: #f9f9f9;
   font-weight: bold;
 }
+
 
 .table-row:last-child {
   border-bottom: none;
