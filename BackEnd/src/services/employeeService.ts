@@ -28,4 +28,29 @@ export class EmployeeService {
             attributes: ["id", "fullName", "phone", "curp", "salary"],
         });
     }
+
+    async updateEmployee(
+        id: number,
+        data: { fullName: string; phone: string; curp: string; salary: number }
+    ) {
+        const employee = await Employee.findByPk(id);
+        if (!employee) {
+            throw new Error("Empleado no encontrado.");
+        }
+
+        try {
+            await employee.update(data);
+            return employee;
+        } catch (error: any) {
+            if (error.name === "SequelizeUniqueConstraintError") {
+                if (error.errors[0].path === "curp") {
+                    throw new Error("El CURP ya está registrado.");
+                }
+                if (error.errors[0].path === "phone") {
+                    throw new Error("El teléfono ya está registrado.");
+                }
+            }
+            throw error;
+        }
+    }
 }

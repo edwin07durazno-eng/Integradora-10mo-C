@@ -11,4 +11,7 @@ router.post("/", authenticateToken, (req, res) => employeeController.register(re
 // Obtener todos los empleados
 router.get("/", authenticateToken, (req, res) => employeeController.getAll(req, res));
 
+// Modificar empleado
+router.put("/:id", authenticateToken, (req, res) => employeeController.update(req, res));
+
 export default router;

@@ -41,4 +41,27 @@ export class EmployeeController {
             return res.status(500).json({ message: "Error interno del servidor." });
         }
     }
+
+    async update(req: Request, res: Response) {
+        try {
+            const { id } = req.params;
+            const { fullName, phone, curp, salary } = req.body;
+
+            if (!fullName || !phone || !curp || !salary) {
+                return res.status(400).json({ message: "Todos los campos son requeridos." });
+            }
+
+            const employee = await employeeService.updateEmployee(Number(id), { fullName, phone, curp, salary });
+            return res.status(200).json(employee);
+        } catch (error: any) {
+            if (error.message === "Empleado no encontrado.") {
+                return res.status(404).json({ message: error.message });
+            }
+            if (error.message.includes("ya está registrado")) {
+                return res.status(409).json({ message: error.message });
+            }
+            console.error("Error al actualizar empleado:", error);
+            return res.status(500).json({ message: "Error interno del servidor." });
+        }
+    }
 }
